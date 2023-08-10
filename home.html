@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#signup{
+display: none;
+}
+
+nav{
+  display: flex;  
+  height: 10vh;
+  place-items: center;
+  background-color: slategray;
+  color: white;
+  font-weight: 500;
+  line-height: 15px;
+  justify-content: space-around;
+ 
+}
+nav >a{
+    text-decoration: none;
+    color: white;
+}
+#main{
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+}
+</style>
+
+<body>
+
+<nav>
+    <a href="/home.html">Home</a>
+    <p id="doctor" >Doctors</p>
+    <p id="appointments">Appointments</p>
+</nav>
+<div id="main">
+    <form id="login">
+        <button id="sig">Go to Signup</button>
+        <br/>
+        <input placeholder="email" id="email"/>
+        <br/>
+        <input placeholder="password" id="password"/>
+        <br/>
+        <button>submit</button>
+        <br/>
+         
+        
+    </form>
+    
+    <br/>
+    <form id="signup">
+        <button id="log">Go to login</button>
+        <br/>
+        <input placeholder="Username" id="Username" />
+        <br/>
+        <input placeholder="Email" id="Email"/>
+        <br/>
+        <input placeholder="Password" id="Password"/>
+        <br/>
+        <input type="checkbox" id="checkbox"/> <span>Doctor</span>
+        <br/>
+        <button type="submit" >Submit</button>
+       
+    </form>
+</div>
+
+
+</body>
+
+
+<script>
+
+
+
+let userdata=JSON.parse(localStorage.getItem("userdata"))||{}
+
+
+const log=document.getElementById("log")
+const login=document.getElementById("login")
+const signup=document.getElementById("signup")
+const sig=document.getElementById("sig")
+
+
+const doctor=document.getElementById("doctor")
+const appointments=document.getElementById("appointments")
+
+doctor.addEventListener("click",()=>{
+console.log(userdata)
+if(userdata.doctor){
+    location.href="/doctor.html"
+}else{
+    alert(`you are not authorised for this operation`)
+    location.href="/home.html"
+}
+
+})
+
+appointments.addEventListener("click",()=>{
+    location.href="/appointments.html"
+})
+
+
+
+
+
+
+
+
+
+
+log.addEventListener("click",(e)=>{
+ e.preventDefault()
+ login.style.display="block"
+ signup.style.display="none"
+
+})
+
+
+sig.addEventListener("click",(e)=>{
+e.preventDefault()
+login.style.display="none"
+signup.style.display="block"
+
+})
+
+signup.addEventListener("submit",(e)=>{
+    e.preventDefault()
+let ob={
+    username:signup.Username.value,
+    email:signup.Email.value,
+    doctor:signup.checkbox.checked,
+    password:signup.Password.value
+}
+
+fetch(` http://localhost:8080/users`,{
+    method:"POST",
+    "headers":{
+        "content-type":"application/json"
+    },
+    "body":JSON.stringify(ob)
+})
+.then((res)=>res.json())
+.then((res)=>{
+    
+    alert(`account created successfully`)
+})
+console.log(ob)
+
+})
+
+
+login.addEventListener("submit",(e)=>{
+    e.preventDefault()
+
+let ob={   
+    email:login.email.value,
+    password:login.password.value
+}
+
+
+fetch(`http://localhost:8080/users`)
+.then((res)=>res.json())
+.then((res)=>{
+   console.log(res)
+
+   let newdata=res.filter((item)=>item.email==ob.email && item.password==ob.password)
+    console.log(newdata ,"line 112")
+   if(newdata.length>0){
+    localStorage.setItem("userdata",JSON.stringify(newdata[0]))
+   if(newdata[0].doctor){
+
+    alert(`login successful`)
+    window.location.href="/home.html"
+    
+    window.location.href="/doctor.html"
+   }else{
+    alert(`login successful`)
+    window.location.href="/home.html"
+    window.location.href="/appointments.html"
+   }
+   
+
+   
+   }else{
+    alert(`wrong credentials`)
+   }
+
+
+
+})
+.catch((err)=>{
+console.log(err)
+
+})
+
+})
+
+
+
+
+
+
+</script>
+
+</html>

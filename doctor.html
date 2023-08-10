@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    nav{
+  display: flex;  
+  height: 10vh;
+  place-items: center;
+  background-color: slategray;
+  color: white;
+  font-weight: 500;
+  line-height: 15px;
+  justify-content: space-around;
+ 
+}
+nav >a{
+    text-decoration: none;
+    color: white;
+}
+
+table {
+            width: 100%;
+            border-collapse: collapse;
+            
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        th:nth-child(1),
+        th:nth-child(2),
+        th:nth-child(3),
+        th:nth-child(4) {
+            width: 10%;
+        }
+
+        th:nth-child(5),
+        th:nth-child(6),
+        th:nth-child(7),
+        th:nth-child(8) {
+            width: 15%;
+        }
+
+</style>
+
+<body>
+    <nav>
+        <a href="/home.html">Home</a>
+        <p id="doctor">Doctors</p>
+        <p id="appointments">Appointments</p>
+    </nav>
+    <form id="signup">
+       
+        <br/>
+        <input placeholder="Username" id="Name" />
+        <br/>
+        <input placeholder="Email" id="Experience"/>
+        <br/>
+        <select id="Specialization" >
+            <option value="">Select Specialization</option>
+            <option value="Cardiologist">Cardiologist</option>
+            <option value="Dermatologist">Dermatologist</option>
+            <option value="Pediatrician">Pediatrician</option>
+            <option value="Psychiatrist ">Psychiatrist </option>
+           
+        </select>
+        <br/>
+        <input placeholder="location" id="Location"/>
+        <br/>
+        <input type="date" id="Date2"/>
+        <br/>
+        <input  id="Slots" placeholder="slots"/>
+        <br/>
+        <input  id="Fee" placeholder="fee"/>
+        <br/>
+        <button type="submit" >Submit</button>
+       
+    </form>
+
+
+
+    
+
+
+<table >
+    <thead>
+        <tr>
+        <th>Doctor</th>
+        <th>Specialization</th>
+        <th>experience</th>
+        <th>location</th>
+        <th>slots</th>
+        <th>Edit</th>
+        <th>Delete</th>
+        <th>Appointments</th></tr>
+    </thead>
+    <tbody id="tbody">
+
+    </tbody>
+</table>
+
+<h1>Edit</h1>
+
+<form id="edit">
+       
+    <br/>
+    <input placeholder="Username" id="editName" />
+    <br/>
+    <input placeholder="Email" id="editExperience"/>
+    <br/>
+    <select id="editSpecialization" >
+        <option value="">Select Specialization</option>
+        <option value="Cardiologist">Cardiologist</option>
+        <option value="Dermatologist">Dermatologist</option>
+        <option value="Pediatrician">Pediatrician</option>
+        <option value="Psychiatrist ">Psychiatrist </option>
+       
+    </select>
+    <br/>
+    <input placeholder="location" id="editLocation"/>
+    <br/>
+    <input type="date" id="editDate2"/>
+    <br/>
+    <input  id="editSlots" placeholder="slots"/>
+    <br/>
+    <input  id="editFee" placeholder="fee"/>
+    <br/>
+    <button type="submit" >Edit</button>
+   
+</form>
+
+</body>
+
+<script>
+
+const signup=document.getElementById("signup")
+
+
+
+const doctor=document.getElementById("doctor")
+const appointments=document.getElementById("appointments")
+
+doctor.addEventListener("click",()=>{
+console.log(userdata)
+if(userdata.doctor){
+    location.href="/doctor.html"
+}else{
+    alert(`you are not authorised for this operation`)
+    location.href="/home.html"
+}
+
+})
+
+appointments.addEventListener("click",()=>{
+    location.href="/appointments.html"
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+signup.addEventListener("submit",(e)=>{
+    e.preventDefault()
+let ob={
+    name:signup.Name.value,
+    experience:signup.Experience.value,
+    specialization:signup.Specialization.value,
+    location:signup.Location.value,
+    date:signup.Date2.value,
+    slots:signup.Slots.value,
+    fee:signup.Fee.value
+}
+
+fetch(`http://localhost:8080/appointments`,{
+    method:"POST",
+    "headers":{
+        "content-type":"application/json"
+    },
+    "body":JSON.stringify(ob)
+})
+.then((res)=>res.json())
+.then((res)=>{
+    
+    alert(`appointment created successfully`)
+})
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const edit=document.getElementById("edit")
+
+
+function editData(id){
+
+    edit.addEventListener("submit",(e)=>{
+    e.preventDefault()
+let ob={
+    name:edit.editName.value,
+    experience:edit.editExperience.value,
+    specialization:edit.editSpecialization.value,
+    location:edit.editLocation.value,
+    date:edit.editDate2.value,
+    slots:edit.editSlots.value,
+    fee:edit.editFee.value
+}
+
+fetch(`http://localhost:8080/appointments/${id}`,{
+    method:"PATCH",
+    "headers":{
+        "content-type":"application/json"
+    },
+    "body":JSON.stringify(ob)
+})
+.then((res)=>res.json())
+.then((res)=>{
+    
+    alert(`appointment Edited successfully`)
+})
+
+
+})
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const tbody=document.getElementById("tbody")
+
+window.addEventListener("load",()=>{
+
+getdata()
+
+})
+
+
+function getdata(){
+    fetch(`http://localhost:8080/appointments`)
+    .then((res)=>res.json())
+    .then((res)=>{
+        console.log(res,"line 127")
+        showdata(res)
+    })
+}
+
+
+function showdata(data){
+
+data.forEach((item)=>{
+
+    let tr=document.createElement("tr")
+    let td1=document.createElement("td")
+    td1.innerText=item.name
+    let td2=document.createElement("td")
+    td2.innerText=item.specialization
+    let td3=document.createElement("td")
+    td3.innerText=item.location
+    let td4=document.createElement("td")
+    td4.innerText=item.experience
+    let td5=document.createElement("td")
+    td5.innerText=item.slots
+    let td6=document.createElement("button")
+    td6.innerText="EDIT"
+
+
+td6.addEventListener("click",()=>{
+    editData(item.id)
+    edit.editName.value=item.name
+    edit.editExperience.value=item.experience
+    edit.editSpecialization.value=item.specialization
+    edit.editLocation.value=item.location
+    edit.editFee.value=item.fee
+    edit.editSlots.value=item.slots
+    edit.editDate2.value=item.date
+
+
+})
+
+
+    let td7=document.createElement("button")
+    td7.innerText="Delete"
+
+td7.addEventListener("click",()=>{
+ 
+    fetch(`http://localhost:8080/appointments/${item.id}`,{
+        method:"DELETE"
+    })
+    .then((res)=>res.json())
+    .then((res)=>{
+        alert(`appointment deleted successfully`)
+    })
+
+
+})
+
+
+    let td8=document.createElement("button")
+    td8.innerText="Appointments"
+
+
+    tr.append(td1,td2,td3,td4,td5,td6,td7,td8)
+    tbody.append(tr)
+
+})
+
+}
+
+</script>
+
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    nav{
+  display: flex;  
+  height: 10vh;
+  place-items: center;
+  background-color: slategray;
+  color: white;
+  font-weight: 500;
+  line-height: 15px;
+  justify-content: space-around;
+ 
+}
+nav >a{
+    text-decoration: none;
+    color: white;
+}
+
+
+#body{
+    display:grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 5%;
+
+}
+#body >div{
+width:50%;
+}
+
+
+
+#body  img{
+    width: 100%;
+}
+
+#page{
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+}
+
+</style>
+
+<body>
+    <nav>
+        <a href="/home.html">Home</a>
+        <p id="doctor">Doctors</p>
+        <p id="appointments">Appointments</p>
+    </nav>
+
+<div id="body"></div>
+
+
+<button id="prev">Prev</button>
+<span id="span">1</span>
+<button id="next">Next</button>
+
+
+</body>
+
+
+
+<script>
+
+
+const body=document.getElementById("body")
+
+
+const prev=document.getElementById("prev")
+const next=document.getElementById("next")
+
+const span=document.getElementById("span")
+
+
+
+const doctor=document.getElementById("doctor")
+const appointments=document.getElementById("appointments")
+
+doctor.addEventListener("click",()=>{
+console.log(userdata)
+if(userdata.doctor){
+    location.href="/doctor.html"
+}else{
+    alert(`you are not authorised for this operation`)
+    location.href="/home.html"
+}
+
+})
+
+appointments.addEventListener("click",()=>{
+    location.href="/appointments.html"
+})
+
+prev.addEventListener("click",()=>{
+    if (span.innerText > 1) {
+        
+       let value=Number(span.innerText)-1
+        span.innerText=value
+        getdata(value)
+  }
+   
+})
+next.addEventListener("click",()=>{
+   
+       let value=Number(span.innerText)+1
+        span.innerText=value
+        getdata(value)
+     
+   
+})
+
+window.addEventListener("load",()=>{
+
+getdata(1)
+
+})
+
+
+function getdata(page){
+    fetch(`http://localhost:8080/appointments?_limit=4&_page=${page}`)
+    .then((res)=>res.json())
+    .then((res)=>{
+        console.log(res,"line 127")
+        showdata(res)
+    })
+}
+
+
+
+
+
+
+
+function showdata(data){
+  body.innerHTML=null
+
+data.forEach((item)=>{
+
+    let tr=document.createElement("div")
+    let image=document.createElement("img")
+    image.setAttribute("src",item.image)
+    let td1=document.createElement("h1")
+    td1.innerText=item.name
+    let td2=document.createElement("p")
+    td2.innerText=item.specialization
+    let td3=document.createElement("p")
+    td3.innerText=item.location
+    let td4=document.createElement("p")
+    td4.innerText=item.experience
+    let td5=document.createElement("p")
+    td5.innerText=item.slots
+    let td6=document.createElement("button")
+    td6.innerText="Book"
+
+    if (item.slots <= 0) {
+      td6.disabled = true;
+    }
+
+
+
+td6.addEventListener("click",()=>{
+  
+if(item.slots>0){
+    let ob={
+    slots:item.slots-1
+}
+    fetch(`http://localhost:8080/appointments/${item.id}`,{
+    method:"PATCH",
+    "headers":{
+        "content-type":"application/json"
+    },
+    "body":JSON.stringify(ob)
+})
+.then((res)=>res.json())
+.then((res)=>{
+    
+    alert(`appointment Edited successfully`)
+})
+}else{
+    td6.disabled = true
+}
+
+
+
+
+
+
+
+
+
+
+})
+
+
+    let td7=document.createElement("button")
+    td7.innerText="Delete"
+
+
+    tr.append(image,td1,td2,td3,td4,td5,td6)
+    body.append(tr)
+
+})
+
+}
+
+</script>
+
+</html>

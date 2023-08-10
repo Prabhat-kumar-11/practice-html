@@ -1,0 +1,86 @@
+{
+  "users": [
+    {
+      "username": "hello",
+      "email": "abcd@gmail.com",
+      "doctor": true,
+      "password": "pankaj",
+      "id": 1
+    },
+    {
+      "username": "prabhat",
+      "email": "prabhat",
+      "doctor": false,
+      "password": "prabhat",
+      "id": 2
+    }
+  ],
+  "appointments": [
+    {
+      "name": "pankaj10",
+      "experience": "pnkjvshsht1@gmail.com",
+      "image": "https://media.istockphoto.com/id/138205019/photo/happy-healthcare-practitioner.jpg?s=612x612&w=0&k=20&c=b8kUyVtmZeW8MeLHcDsJfqqF0XiFBjq6tgBQZC7G0f0=",
+      "specialization": "Dermatologist",
+      "location": "delhi",
+      "date": "2023-08-15",
+      "slots": 8,
+      "fee": "2000",
+      "id": 1
+    },
+    {
+      "name": "Jane Doe 15",
+      "image": "https://media.istockphoto.com/id/138205019/photo/happy-healthcare-practitioner.jpg?s=612x612&w=0&k=20&c=b8kUyVtmZeW8MeLHcDsJfqqF0XiFBjq6tgBQZC7G0f0=",
+      "specialization": "Dermatologist",
+      "experience": "10",
+      "location": "Los Angeles",
+      "date": "",
+      "slots": 0,
+      "fee": "150",
+      "id": 2
+    },
+    {
+      "name": "Mark Johnson",
+      "image": "https://media.istockphoto.com/id/177839842/photo/smiling-doctor-woman-with-arms-crossed.jpg?s=612x612&w=0&k=20&c=infRKfdmTMS8WYFZHF_GPuBpLPszyyXhiP5Er9a50jA=",
+      "specialization": "Pediatrician",
+      "experience": 5,
+      "location": "Chicago",
+      "date": "2023-04-06T09:30:00.000Z",
+      "slots": 0,
+      "fee": 100,
+      "id": 3
+    },
+    {
+      "name": "pankaj10",
+      "experience": "pnkjvshsht1@gmail.com",
+      "image": "https://media.istockphoto.com/id/138205019/photo/happy-healthcare-practitioner.jpg?s=612x612&w=0&k=20&c=b8kUyVtmZeW8MeLHcDsJfqqF0XiFBjq6tgBQZC7G0f0=",
+      "specialization": "Dermatologist",
+      "location": "delhi",
+      "date": "2023-08-15",
+      "slots": "10",
+      "fee": "2000",
+      "id": 4
+    },
+    {
+      "name": "Jane Doe 15",
+      "image": "https://media.istockphoto.com/id/138205019/photo/happy-healthcare-practitioner.jpg?s=612x612&w=0&k=20&c=b8kUyVtmZeW8MeLHcDsJfqqF0XiFBjq6tgBQZC7G0f0=",
+      "specialization": "Dermatologist",
+      "experience": "10",
+      "location": "Los Angeles",
+      "date": "",
+      "slots": "2",
+      "fee": "150",
+      "id": 5
+    },
+    {
+      "name": "Mark Johnson",
+      "image": "https://media.istockphoto.com/id/177839842/photo/smiling-doctor-woman-with-arms-crossed.jpg?s=612x612&w=0&k=20&c=infRKfdmTMS8WYFZHF_GPuBpLPszyyXhiP5Er9a50jA=",
+      "specialization": "Pediatrician",
+      "experience": 5,
+      "location": "Chicago",
+      "date": "2023-04-06T09:30:00.000Z",
+      "slots": 1,
+      "fee": 100,
+      "id": 6
+    }
+  ]
+}
